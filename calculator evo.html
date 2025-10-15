@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <title>Calculator - S6393212</title>
+  <style>
+    body {
+        background-color: RGB(31, 31, 31);
+        display: flex;               
+        justify-content: center;
+        align-items: center;  
+        height:100vh;   
+        margin: 0;
+    }
+    .container {
+        background-color: RGB(52, 52, 56);
+        text-align: center;
+        width: 50%;
+        max-width: 400px; 
+        margin-left: auto;
+        margin-right: auto;
+        padding: 50px;
+        border: solid 2px RGB(146, 146, 146);
+        border-radius: 5%;
+        box-sizing: border-box;      
+        display: flex;
+        flex-direction: column;      
+        gap: 20px;
+    }
+    #display{
+        color: RGB(237, 240, 255);
+        background-color: RGB(45, 50, 65);
+        font-size: 20pt;
+        padding: 15px;
+        margin-bottom: 20px; 
+        border: solid 2px RGB(100, 100, 100); 
+        border-radius: 5px;
+        min-height: 30px; 
+        text-align: right;
+        font-family: monospace; 
+        overflow-x: auto;
+    }
+    .utility-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr; 
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+    .calculator-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); 
+        gap: 12px; 
+        width: 100%;
+    }
+    .btn {
+        color: RGB(237, 240, 255); 
+        background-color: RGB(62, 62, 65); 
+        padding: 10px;
+        font-size: 20pt;
+        font-weight: bold;
+        border: solid 2px RGB(100, 100, 100); 
+        border-radius: 50px;
+        transition: transform 0.3s ease-in-out;
+        margin: 0;
+        aspect-ratio: 1/1;
+        min-width: 0;
+    }
+    .btn:hover {
+        background-color: RGB(58, 70, 80);
+    }
+    .btn:active {
+        transform: scale(0.95);
+        border: solid 3px RGB(100, 100, 100); 
+    }
+    .equals-btn {
+        background-color: RGB(152, 165, 230); 
+        color: RGB(31, 31, 31); 
+        border-color: RGB(152, 165, 230);
+    }
+    .equals-btn:hover {
+         background-color: RGB(165, 178, 243);
+    }
+    .equals-btn:active {
+        transform: scale(0.95);
+        border: solid 3px RGB(152, 165, 230); 
+    }
+    .operator-btn {
+        background-color: RGB(45, 50, 65);
+    }
+    #ac, #chrono {
+        font-size: 16pt;
+        padding: 10px 5px;
+        aspect-ratio: auto; 
+        border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <div id="display"></div> 
+        <div class="utlity-row">
+            <input type="button" id="ac" value="AC" class="btn function-btn"> 
+            <input type="button" id="chrono" value="Cronologia" class="btn function-btn" style="grid-column: span 2;"> 
+        </div>
+        <div class="calculator-grid">
+            <input type="button" id="7" value="7" class="btn"> 
+            <input type="button" id="8" value="8" class="btn"> 
+            <input type="button" id="9" value="9" class="btn"> 
+            <input type="button" id="divi" value="÷" class="btn operator-btn">
+            
+            <input type="button" id="4" value="4" class="btn">
+            <input type="button" id="5" value="5" class="btn">
+            <input type="button" id="6" value="6" class="btn"> 
+            <input type="button" id="mult" value="×" class="btn operator-btn"> 
+            
+            <input type="button" id="1" value="1" class="btn"> 
+            <input type="button" id="2" value="2" class="btn"> 
+            <input type="button" id="3" value="3" class="btn">
+            <input type="button" id="sub" value="-" class="btn operator-btn"> 
+            
+            <input type="button" id="0" value="0" class="btn"> 
+            <input type="button" id="decimal" value="." class="btn"> 
+            <input type="button" id="equals" value="=" class="btn equals-btn"> 
+            <input type="button" id="sum" value="+" class="btn operator-btn">
+        </div>
+    </div>
+    <script> 
+
+        let display = document.getElementById("display");
+        display.textContent = '0'
+
+        let chrono = []; 
+
+        let currentOperator = null; 
+        let firstOperand = null; 
+        let waitingForSecondOperand = false;
+
+        function inputDigit(digit){
+            if(waitingForSecondOperand === true){
+                display.textContent += digit;
+                waitingForSecondOperand = false; 
+            } else{
+                if(display.textContent === '0'){
+                    display.textContent = digit;
+                } else{
+                    display.textContent += digit;
+                }
+            }
+        }
+        function inputDecimal(dot) {
+            if (waitingForSecondOperand === true){
+                if(display.textContent.includes(currentOperator)){
+                    display.textContent += "0" + dot; 
+                } else{
+                    display.textContent = "0" + dot; 
+                }
+                waitingForSecondOperand = false;
+                return;
+            }
+    
+            const parts = display.textContent.split(currentOperator || 'N/A');
+            const currentNumber = parts[parts.length - 1].trim();
+
+            if(!currentNumber.includes(dot)){
+                display.textContent += dot;
+            }
+        }
+        function handleOperator(nextOperator){
+            const currentDisplayValue = display.textContent;
+        
+            const parts = currentDisplayValue.split(currentOperator || 'N/A');
+            const currentNumberString = parts[parts.length - 1].trim();
+            const inputValue = parseFloat(currentNumberString); 
+            if(isNaN(inputValue) && firstOperand === null){return;}
+
+            if(firstOperand === null){
+                firstOperand = inputValue;
+            } else if (currentOperator === null && !waitingForSecondOperand){
+                firstOperand = inputValue; 
+            } else if(currentOperator && !waitingForSecondOperand){
+                
+                const operandA = firstOperand;
+                const operandB = inputValue;
+                const operator = currentOperator;
+
+                const result = calculate(operandA, operandB, operator);
+                
+                if(isNaN(result)){
+                    resetCalculator();
+                    return;
+                }
+                
+                const partialResultString = `${operandA} ${operator} ${operandB} = ${result}`;
+                chrono.push(partialResultString + "; ");
+
+                firstOperand = result;
+            }
+            
+            waitingForSecondOperand = true;
+            currentOperator = nextOperator; 
+            
+            display.textContent = `${firstOperand} ${currentOperator} `;
+        }
+        function calculate(numA, numB, operator){
+            if(isNaN(numA) || isNaN(numB)){
+                alert("Input non valido. Inserisci solo numeri.");
+                return NaN; 
+            }
+            let res;
+            switch(operator){
+                case '+':
+                    res = numA + numB;
+                    break;
+                case '-':
+                    res = numA - numB;
+                    break;
+                case '*':
+                    res = numA * numB;
+                    break;
+                case '/':
+                    if(numB === 0){
+                        alert("Non si puo' dividere per zero!");
+                        return NaN; 
+                    }
+                    res = numA / numB;
+                    break;
+                default:
+                    return numB;
+            }
+            return res;
+        }
+        function handleEquals(){
+            if(currentOperator === null || waitingForSecondOperand){return;}
+            const parts = display.textContent.split(currentOperator);
+            const secondOperandString = parts.length > 1 ? parts[1].trim() : display.textContent;
+            
+            if(secondOperandString === ""){return;} 
+            const secondOperand = parseFloat(secondOperandString);
+            const result = calculate(firstOperand, secondOperand, currentOperator);
+
+            if(isNaN(result)){
+                resetCalculator(); 
+                return;
+            }
+            
+            display.textContent = String(result);
+
+            const resultString = `${firstOperand} ${currentOperator} ${secondOperand} = ${result}`;
+            chrono.push(resultString + "; ");
+            
+            firstOperand = result;
+            currentOperator = null;
+            waitingForSecondOperand = false; 
+        }
+        function resetCalculator(){
+            display.textContent = '0';
+            firstOperand = null;
+            currentOperator = null;
+            waitingForSecondOperand = false;
+        }
+        function showChrono(){
+            if(chrono.length === 0){
+                alert("Nessuna operazione nello storico.");
+                return;
+            }
+            alert("Storico:\n" + chrono.join('\n'));
+            chrono = [];
+        }
+
+        for(let i = 0; i <= 9; i++){
+            const button = document.getElementById(String(i));
+            if(button){
+                button.addEventListener('click', () => inputDigit(String(i)));
+            }
+        }
+
+        document.getElementById('decimal').addEventListener('click', () => inputDecimal('.'))
+        document.getElementById('sum').addEventListener('click', () => handleOperator('+'));
+        document.getElementById('sub').addEventListener('click', () => handleOperator('-'));
+        document.getElementById('mult').addEventListener('click', () => handleOperator('*')); 
+        document.getElementById('divi').addEventListener('click', () => handleOperator('/')); 
+        document.getElementById('equals').addEventListener('click', handleEquals);
+        document.getElementById('chrono').addEventListener('click', showChrono);  
+
+        const acButton = document.getElementById('ac');
+        if(acButton){acButton.addEventListener('click', resetCalculator);}
+    </script>
+</body>
+</html>
