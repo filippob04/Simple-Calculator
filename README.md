@@ -10,6 +10,7 @@ It simulates a basic arithmetic calculator with functionality for addition, subt
 
 * **Basic Arithmetic:** Supports addition ($+$), subtraction ($-$), multiplication ($\times$), and division ($\div$).
 * **Decimal Support:** Allows for floating-point calculations.
+* **Powers Support:** Allows for powers and roots calculations.
 * **Operation Chaining:** You can string multiple operations together (e.g., $10 + 5 \times 2 - 3$).
 * **History Log (Cronologia):** Stores a record of all completed calculations until the history is viewed.
 * **Clear Function (AC):** Resets the display and the current operation.
