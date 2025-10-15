@@ -1,4 +1,4 @@
-# Simple Calculator (Calcolatrice Semplice) 🧮
+# Simple Calculator 🧮
 
 This is a single-file, web-based calculator application built using **HTML, CSS, and vanilla JavaScript**.
 
