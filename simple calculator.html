@@ -87,7 +87,7 @@
     .operator-btn {
         background-color: RGB(45, 50, 65);
     }
-    #ac, #chrono {
+    #ac, #chrono, #pow {
         font-size: 16pt;
         padding: 10px 5px;
         aspect-ratio: auto; 
@@ -100,7 +100,8 @@
         <div id="display"></div> 
         <div class="utlity-row">
             <input type="button" id="ac" value="AC" class="btn function-btn"> 
-            <input type="button" id="chrono" value="Cronologia" class="btn function-btn" style="grid-column: span 2;"> 
+            <input type="button" id="chrono" value="chrono" class="btn function-btn"> 
+            <input type="button" id="pow" value="pow" class="btn function-btn">
         </div>
         <div class="calculator-grid">
             <input type="button" id="7" value="7" class="btn"> 
@@ -224,6 +225,13 @@
                     }
                     res = numA / numB;
                     break;
+                case '^':
+                    if(numA < 0 && Number.isInteger(1 / numB) && (1 / numB) % 2 === 0){
+                        alert("Non si puo' eseguire una radice pari di un numero negativo");
+                        return NaN; 
+                    }
+                    res = numA ** numB;
+                    break;
                 default:
                     return numB;
             }
@@ -273,7 +281,6 @@
                 button.addEventListener('click', () => inputDigit(String(i)));
             }
         }
-
         document.getElementById('decimal').addEventListener('click', () => inputDecimal('.'))
         document.getElementById('sum').addEventListener('click', () => handleOperator('+'));
         document.getElementById('sub').addEventListener('click', () => handleOperator('-'));
@@ -281,7 +288,8 @@
         document.getElementById('divi').addEventListener('click', () => handleOperator('/')); 
         document.getElementById('equals').addEventListener('click', handleEquals);
         document.getElementById('chrono').addEventListener('click', showChrono);  
-        document.getElementById('ac').addEventListener('click', resetCalculator);  
+        document.getElementById('ac').addEventListener('click', resetCalculator);
+        document.getElementById('pow').addEventListener('click', () => handleOperator('^'));    
     </script>
 </body>
 </html>
