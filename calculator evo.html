@@ -281,9 +281,7 @@
         document.getElementById('divi').addEventListener('click', () => handleOperator('/')); 
         document.getElementById('equals').addEventListener('click', handleEquals);
         document.getElementById('chrono').addEventListener('click', showChrono);  
-
-        const acButton = document.getElementById('ac');
-        if(acButton){acButton.addEventListener('click', resetCalculator);}
+        document.getElementById('ac').addEventListener('click', resetCalculator);  
     </script>
 </body>
 </html>
