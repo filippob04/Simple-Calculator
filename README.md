@@ -14,18 +14,15 @@ It simulates a basic arithmetic calculator with functionality for addition, subt
 * **Operation Chaining:** You can string multiple operations together (e.g., $10 + 5 \times 2 - 3$).
 * **History Log (Cronologia):** Stores a record of all completed calculations until the history is viewed.
 * **Clear Function (AC):** Resets the display and the current operation.
-* **Responsive Design:** Styled to be functional and aesthetically pleasing on different screen sizes.
 
 ---
 
 ## Usage 💻
 
-The calculator is contained entirely within the `simple calculator.html` file.
-
-1.  **Download:** Save the `simple calculator.html` file to your local machine.
-2.  **Open:** Double-click the file or open it with any modern web browser (Chrome, Firefox, Edge, Safari, etc.).
+1.  **Download:** Save the HTML, JavaScript and CSS files to your local machine.
+2.  **Open:** Double-click the HTML file or open it with any modern web browser (Chrome, Firefox, Edge, Safari, etc.).
 3.  **Calculate:** Click the numbered buttons to input digits. Use the operator buttons ($\div, \times, -, +$) to perform operations.
-4.  **View History:** Click the **"Cronologia"** button to see a list of all calculations performed since the last time the history was viewed.
+4.  **View History:** Click the **"Chrono"** button to see a list of all calculations performed since the last time the history was viewed.
 
 ---
 
