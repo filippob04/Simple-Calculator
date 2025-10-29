@@ -144,6 +144,33 @@ function handleEquals() {
   currentOperator = null;
   waitingForSecondOperand = false;
 }
+// Gestisce le cancellazioni degli operandi, non dei singoli numeri per come sono gestiti first operand e second operand
+function handleCanc() {
+  const DisplayValue = display.textContent;
+  // Se la calcolatrice e' vuota
+  if (DisplayValue === "0") {
+    return;
+  }
+  // Se sto aspettando un secondo operando
+  if (waitingForSecondOperand == true) {
+    display.textContent = String(firstOperand);
+    currentOperator = null;
+    waitingForSecondOperand = false;
+    return;
+  }
+  // Se non ho cancora premuto =
+  if (currentOperator !== null && waitingForSecondOperand === false) {
+    const parts = DisplayValue.split(currentOperator);
+    const secondOperandPart = parts[1].trim();
+
+    if (secondOperandPart !== "") {
+      display.textContent = `${firstOperand} ${currentOperator} `;
+      waitingForSecondOperand = true;
+      return;
+    }
+  }
+  resetCalculator();
+}
 function resetCalculator() {
   display.textContent = "0";
   firstOperand = null;
@@ -180,12 +207,13 @@ document
 document
   .getElementById("divi")
   .addEventListener("click", () => handleOperator("÷"));
-document.getElementById("equals").addEventListener("click", handleEquals);
-document.getElementById("chrono").addEventListener("click", showChrono);
-document.getElementById("ac").addEventListener("click", resetCalculator);
 document
   .getElementById("pow")
   .addEventListener("click", () => handleOperator("^"));
 document
   .getElementById("mod")
   .addEventListener("click", () => handleOperator("%"));
+document.getElementById("canc").addEventListener("click", handleCanc);
+document.getElementById("equals").addEventListener("click", handleEquals);
+document.getElementById("chrono").addEventListener("click", showChrono);
+document.getElementById("ac").addEventListener("click", resetCalculator);
