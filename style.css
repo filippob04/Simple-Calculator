@@ -81,9 +81,7 @@ body {
 .operator-btn {
   background-color: RGB(45, 50, 65);
 }
-#ac,
-#chrono,
-#pow {
+.function-btn {
   font-size: 16pt;
   padding: 10px 5px;
   aspect-ratio: auto;

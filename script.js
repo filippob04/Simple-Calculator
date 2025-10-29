@@ -87,10 +87,10 @@ function calculate(numA, numB, operator) {
     case "-":
       res = numA - numB;
       break;
-    case "*":
+    case "×":
       res = numA * numB;
       break;
-    case "/":
+    case "÷":
       if (numB === 0) {
         alert("Non si puo' dividere per zero!");
         return NaN;
@@ -103,6 +103,13 @@ function calculate(numA, numB, operator) {
         return NaN;
       }
       res = numA ** numB;
+      break;
+    case "%":
+      if (numB === 0) {
+        alert("Non si puo' calcolare il modulo per zero!");
+        return NaN;
+      }
+      res = numA % numB;
       break;
     default:
       return numB;
@@ -169,13 +176,16 @@ document
   .addEventListener("click", () => handleOperator("-"));
 document
   .getElementById("mult")
-  .addEventListener("click", () => handleOperator("*"));
+  .addEventListener("click", () => handleOperator("×"));
 document
   .getElementById("divi")
-  .addEventListener("click", () => handleOperator("/"));
+  .addEventListener("click", () => handleOperator("÷"));
 document.getElementById("equals").addEventListener("click", handleEquals);
 document.getElementById("chrono").addEventListener("click", showChrono);
 document.getElementById("ac").addEventListener("click", resetCalculator);
 document
   .getElementById("pow")
   .addEventListener("click", () => handleOperator("^"));
+document
+  .getElementById("mod")
+  .addEventListener("click", () => handleOperator("%"));
